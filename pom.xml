@@ -9,7 +9,7 @@
     <version>1.0</version>
 
     <properties>
-        <java.version>10</java.version>
+        <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -65,34 +65,20 @@
 
     </dependencies>
 
-    <pluginRepositories>
-        <pluginRepository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </pluginRepository>
-    </pluginRepositories>
-
     <build>
         <plugins>
             <plugin>
-                <groupId>com.github.warmuuh</groupId>
-                <artifactId>pactbroker-maven-plugin</artifactId>
-                <version>0.0.13</version>
-                <executions>
-                    <execution>
-                        <id>upload-pacts</id>
-                        <phase>verify</phase>
-                        <goals><goal>upload-pacts</goal></goals>
-                        <configuration>
-                            <pacts>${project.build.directory}/pacts</pacts>
-                            <brokerUrl>https://norwegianlga.pact.dius.com.au</brokerUrl>
-                            <username>${PACTBROKER_USERNAME}</username>
-                            <password>${PACTBROKER_PASSWORD}</password>
-                            <mergePacts>true</mergePacts>
-                            <consumerVersion>${project.version}</consumerVersion>
-                        </configuration>
-                    </execution>
-                </executions>
+                <groupId>au.com.dius</groupId>
+                <artifactId>pact-jvm-provider-maven_2.12</artifactId>
+                <version>3.5.17</version>
+                <configuration>
+                    <pactDirectory>${project.build.directory}/pacts</pactDirectory>
+                    <pactBrokerUrl>https://norwegianlga.pact.dius.com.au</pactBrokerUrl>
+                    <projectVersion>${project.version}</projectVersion>
+                    <trimSnapshot>true</trimSnapshot>
+                    <pactBrokerUsername>${PACTBROKER_USERNAME}</pactBrokerUsername>
+                    <pactBrokerPassword>${PACTBROKER_PASSWORD}</pactBrokerPassword>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

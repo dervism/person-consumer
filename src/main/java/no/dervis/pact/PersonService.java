@@ -8,7 +8,7 @@ import java.io.IOException;
 public class PersonService {
 
     private String host;
-    private String endpoint = "/person";
+    private String endpoint = "/api/person";
 
     public PersonService(String host) {
         this.host = host;

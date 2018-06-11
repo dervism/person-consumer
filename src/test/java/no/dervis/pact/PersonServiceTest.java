@@ -19,7 +19,7 @@ import static io.pactfoundation.consumer.dsl.LambdaDsl.newJsonBody;
 @ExtendWith(PactConsumerTestExt.class)
 class PersonServiceTest {
 
-    private static final String PERSON_API_URL = "/person";
+    private static final String PERSON_API_URL = "/api/person";
     private static final String CONSUMER = "person-consumer";
     private static final String PROVIDER = "person-provider";
 

@@ -55,4 +55,37 @@ class PersonServiceTest {
         Assertions.assertEquals(50, person.getAge());
     }
 
+    @Pact(consumer = CONSUMER, provider = PROVIDER)
+    public RequestResponsePact hasOnePersonQueryParam(PactDslWithProvider builder) {
+        Map<String, String> headers = Collections.singletonMap("Content-Type", "application/json;charset=utf-8");
+
+        return builder
+                .given("another person exists")
+                .uponReceiving("a request with a query for a person that exist")
+                .path(String.format("%s", PERSON_API_URL))
+                .matchQuery("fnr", "\\d+", "0")
+                .method("GET")
+                .willRespondWith()
+                .status(200)
+                .headers(headers)
+                .body(newJsonBody(body -> {
+                    body.numberType("id", 0);
+                    body.stringType("name", "Michael Johansen");
+                    body.numberType("age", 50);
+                }).build())
+                .toPact();
+    }
+
+    @Test
+    @PactTestFor(pactMethod = "hasOnePersonQueryParam")
+    void verifyHasOnePersonQueryParam(MockServer mockServer) throws IOException {
+        PersonService personService = new PersonService(mockServer.getUrl());
+        Person person = personService.getPersonFromQueryParam(0);
+
+        Assertions.assertNotNull(person);
+        Assertions.assertEquals(0, person.getId());
+        Assertions.assertEquals("Michael Johansen", person.getName());
+        Assertions.assertEquals(50, person.getAge());
+    }
+
 }

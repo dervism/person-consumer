@@ -21,4 +21,11 @@ public class PersonService {
         return person;
     }
 
+    public Person getPersonFromQueryParam(int id) throws IOException {
+        Person person = new ObjectMapper().readValue(Request.Get(host + endpoint + "?fnr=" + id).execute()
+                .returnContent().asString(), Person.class);
+
+        return person;
+    }
+
 }

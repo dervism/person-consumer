@@ -32,7 +32,7 @@ class PersonServiceTest {
         return builder
                 .given("a person exists")
                 .uponReceiving("a request for a person that exist")
-                    .path(String.format("%s/%s", PERSON_API_URL, 0))
+                    .matchPath("/api/person/\\d+")
                     .method("GET")
                 .willRespondWith()
                     .status(200)

@@ -32,8 +32,8 @@ class PersonServiceTest {
         return builder
                 .given("a person exists")
                 .uponReceiving("a request for a person that exist")
-                    .matchPath("/api/person/[0-9]+", "/api/person/0")
-                    //.path("/api/person/0")
+                    //.matchPath("/api/person/[0-9]+")
+                    .path("/api/person/0")
                     .method("GET")
                 .willRespondWith()
                     .status(200)

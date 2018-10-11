@@ -6,3 +6,5 @@ Update the pact-broker url in the pom file (pactBrokerUrl property), then run
 
     mvn clean install pact:publish
     
+
+<pact.verifier.publishResults>false</pact.verifier.publishResults>

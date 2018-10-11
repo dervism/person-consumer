@@ -6,7 +6,6 @@ import au.com.dius.pact.consumer.dsl.PactDslWithProvider;
 import au.com.dius.pact.consumer.junit5.PactConsumerTestExt;
 import au.com.dius.pact.consumer.junit5.PactTestFor;
 import au.com.dius.pact.model.RequestResponsePact;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -15,9 +14,10 @@ import java.util.Collections;
 import java.util.Map;
 
 import static io.pactfoundation.consumer.dsl.LambdaDsl.newJsonBody;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(PactConsumerTestExt.class)
-class PersonServiceTest {
+class PersonServiceCrudTest {
 
     private static final String CONSUMER = "person-consumer";
     private static final String PROVIDER = "person-provider";
@@ -25,36 +25,30 @@ class PersonServiceTest {
             Collections.singletonMap("Content-Type", "application/json;charset=utf-8");
 
     @Pact(consumer = CONSUMER, provider = PROVIDER)
-    public RequestResponsePact hasOnePerson(PactDslWithProvider builder) {
+    public RequestResponsePact canCreatePerson(PactDslWithProvider builder) {
 
         return builder
-                .given("a person exists")
-                .uponReceiving("a request for a person that exist")
-                    .path("/api/person/0")                //.matchPath("/api/person/[0-9]+")
-                    .method("GET")
-                .willRespondWith()
-                    .status(200)
-                    .headers(headers)
+                .given("a person can be created")
+                .uponReceiving("a request to create a person")
+                    .path("/api/person")
+                    .method("POST")
                     .body(newJsonBody(body -> {
                         body.numberType("id", 0);
                         body.stringType("name", "Michael Johansen");
                         body.numberType("age", 50);
                     }).build())
+                .willRespondWith()
+                    .status(201)
                 .toPact();
     }
 
     @Test
-    @PactTestFor(pactMethod = "hasOnePerson")
+    @PactTestFor(pactMethod = "canCreatePerson")
     void verifyHasOnePerson(MockServer mockServer) throws IOException {
         PersonService personService = new PersonService(mockServer.getUrl());
-        assertPersonExist(personService.getPerson(0));
-    }
+        boolean created = personService.createPerson("foo bar", 36);
 
-    private void assertPersonExist(Person person) {
-        Assertions.assertNotNull(person);
-        Assertions.assertEquals(0, person.getId());
-        Assertions.assertEquals("Michael Johansen", person.getName());
-        Assertions.assertEquals(50, person.getAge());
+        assertTrue(created);
     }
 
 }

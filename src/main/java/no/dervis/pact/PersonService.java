@@ -2,6 +2,7 @@ package no.dervis.pact;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.client.fluent.Request;
+import org.apache.http.entity.ContentType;
 
 import java.io.IOException;
 
@@ -21,11 +22,13 @@ public class PersonService {
         return person;
     }
 
-    public Person getPersonFromQueryParam(int id) throws IOException {
-        Person person = new ObjectMapper().readValue(Request.Get(host + endpoint + "?fnr=" + id).execute()
-                .returnContent().asString(), Person.class);
+    public boolean createPerson(String name, int age) throws IOException {
+        int statusCode = Request.Post(host + endpoint).bodyString(
+                new ObjectMapper()
+                        .writeValueAsString(new Person(name, age)), ContentType.APPLICATION_JSON)
+                .execute().returnResponse().getStatusLine().getStatusCode();
 
-        return person;
+        return statusCode == 201;
     }
 
 }

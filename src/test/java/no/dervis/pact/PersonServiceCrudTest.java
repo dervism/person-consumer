@@ -38,7 +38,7 @@ class PersonServiceCrudTest {
                         body.numberType("age", 50);
                     }).build())
                 .willRespondWith()
-                    .status(200)
+                    .status(201)
                 .toPact();
     }
 

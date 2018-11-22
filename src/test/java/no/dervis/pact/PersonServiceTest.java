@@ -33,7 +33,7 @@ class PersonServiceTest {
                     .path("/api/person/0")                //.matchPath("/api/person/[0-9]+")
                     .method("GET")
                 .willRespondWith()
-                    .status(200)
+                    .status(201)
                     .headers(headers)
                     .body(newJsonBody(body -> {
                         body.numberType("id", 0);

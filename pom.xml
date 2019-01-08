@@ -11,7 +11,7 @@
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <pactVersion>3.5.23</pactVersion>
+        <pactVersion>3.6.1</pactVersion>
     </properties>
 
     <dependencies>
@@ -62,7 +62,7 @@
                 <version>${pactVersion}</version>
                 <configuration>
                     <pactDirectory>${project.build.directory}/pacts</pactDirectory>
-                    <pactBrokerUrl>https://norwegianlga.pact.dius.com.au</pactBrokerUrl>
+                    <pactBrokerUrl>https://nav.pact.dius.com.au</pactBrokerUrl>
                     <projectVersion>${project.version}</projectVersion>
                     <trimSnapshot>true</trimSnapshot>
                     <pactBrokerUsername>${PACTBROKER_USERNAME}</pactBrokerUsername>

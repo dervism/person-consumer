@@ -5,6 +5,3 @@ Example app showing how to write a Consumer-contract using JUnit 5 and how to up
 Update the pact-broker url in the pom file (pactBrokerUrl property), then run
 
     mvn clean install pact:publish
-    
-
-<pact.verifier.publishResults>false</pact.verifier.publishResults>

@@ -9,9 +9,11 @@
     <version>1.0</version>
 
     <properties>
-        <java.version>1.8</java.version>
+        <compilerRelease>8</compilerRelease>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <pactVersion>3.6.1</pactVersion>
+        <junit5Version>5.3.2</junit5Version>
+        <pactBrokerUrl>https://nav.pact.dius.com.au</pactBrokerUrl>
     </properties>
 
     <dependencies>
@@ -43,7 +45,13 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>5.2.0</version>
+            <version>${junit5Version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit5Version}</version>
         </dependency>
 
         <dependency>
@@ -62,7 +70,7 @@
                 <version>${pactVersion}</version>
                 <configuration>
                     <pactDirectory>${project.build.directory}/pacts</pactDirectory>
-                    <pactBrokerUrl>https://nav.pact.dius.com.au</pactBrokerUrl>
+                    <pactBrokerUrl>${pactBrokerUrl}</pactBrokerUrl>
                     <projectVersion>${project.version}</projectVersion>
                     <trimSnapshot>true</trimSnapshot>
                     <pactBrokerUsername>${PACTBROKER_USERNAME}</pactBrokerUsername>
@@ -72,10 +80,9 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.7.0</version>
+                <version>3.8.0</version>
                 <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
+                    <release>${compilerRelease}</release>
                     <showWarnings>true</showWarnings>
                     <showDeprecation>true</showDeprecation>
                 </configuration>
@@ -83,19 +90,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.19.1</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.junit.platform</groupId>
-                        <artifactId>junit-platform-surefire-provider</artifactId>
-                        <version>1.0.1</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.junit.jupiter</groupId>
-                        <artifactId>junit-jupiter-engine</artifactId>
-                        <version>5.2.0</version>
-                    </dependency>
-                </dependencies>
+                <version>2.22.1</version>
             </plugin>
         </plugins>
     </build>

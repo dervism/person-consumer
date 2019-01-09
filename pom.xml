@@ -14,8 +14,8 @@
         <pactVersion>3.6.1</pactVersion>
         <junit5Version>5.3.2</junit5Version>
         <pactBrokerUrl>https://nav.pact.dius.com.au</pactBrokerUrl>
-        <PACTBROKER_USERNAME></PACTBROKER_USERNAME>
-        <PACTBROKER_PASSWORD></PACTBROKER_PASSWORD>
+        <PACTBROKER_USERNAME>Default</PACTBROKER_USERNAME>
+        <PACTBROKER_PASSWORD>Default</PACTBROKER_PASSWORD>
     </properties>
 
     <dependencies>

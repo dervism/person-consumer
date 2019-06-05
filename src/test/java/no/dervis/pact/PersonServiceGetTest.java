@@ -11,30 +11,27 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.io.IOException;
-import java.util.Collections;
-import java.util.Map;
 
 import static io.pactfoundation.consumer.dsl.LambdaDsl.newJsonBody;
+import static java.util.Collections.singletonMap;
 
 @ExtendWith(PactConsumerTestExt.class)
-class PersonServiceTest {
+class PersonServiceGetTest {
 
     private static final String CONSUMER = "person-consumer";
     private static final String PROVIDER = "person-provider";
-    private static final Map<String, String> headers =
-            Collections.singletonMap("Content-Type", "application/json;charset=utf-8");
 
     @Pact(consumer = CONSUMER, provider = PROVIDER)
     public RequestResponsePact hasOnePerson(PactDslWithProvider builder) {
 
         return builder
-                .given("a person exists")
+                .given("one person exists")
                 .uponReceiving("a request for a person that exist")
                     .path("/api/person/0")                //.matchPath("/api/person/[0-9]+")
                     .method("GET")
                 .willRespondWith()
-                    .status(201)
-                    .headers(headers)
+                    .status(200)
+                    .headers(singletonMap("Content-Type", "application/json;charset=utf-8"))
                     .body(newJsonBody(body -> {
                         body.numberType("id", 0);
                         body.stringType("name", "Michael Johansen");
@@ -47,10 +44,9 @@ class PersonServiceTest {
     @PactTestFor(pactMethod = "hasOnePerson")
     void verifyHasOnePerson(MockServer mockServer) throws IOException {
         PersonService personService = new PersonService(mockServer.getUrl());
-        assertPersonExist(personService.getPerson(0));
-    }
 
-    private void assertPersonExist(Person person) {
+        Person person = personService.getPerson(0);
+
         Assertions.assertNotNull(person);
         Assertions.assertEquals(0, person.getId());
         Assertions.assertEquals("Michael Johansen", person.getName());

@@ -14,15 +14,14 @@ import java.util.Collections;
 import java.util.Map;
 
 import static io.pactfoundation.consumer.dsl.LambdaDsl.newJsonBody;
+import static java.util.Collections.singletonMap;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(PactConsumerTestExt.class)
-class PersonServiceCrudTest {
+class PersonServiceCreateTest {
 
     private static final String CONSUMER = "person-consumer";
     private static final String PROVIDER = "person-provider";
-    private static final Map<String, String> headers =
-            Collections.singletonMap("Content-Type", "application/json;charset=utf-8");
 
     @Pact(consumer = CONSUMER, provider = PROVIDER)
     public RequestResponsePact canCreatePerson(PactDslWithProvider builder) {
@@ -46,9 +45,8 @@ class PersonServiceCrudTest {
     @PactTestFor(pactMethod = "canCreatePerson")
     void verifyHasOnePerson(MockServer mockServer) throws IOException {
         PersonService personService = new PersonService(mockServer.getUrl());
-        boolean created = personService.createPerson("foo bar", 36);
 
-        assertTrue(created);
+        assertTrue(personService.createPerson("foo bar", 36) == 201);
     }
 
 }

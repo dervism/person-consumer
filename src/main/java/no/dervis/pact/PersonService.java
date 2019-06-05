@@ -16,19 +16,20 @@ public class PersonService {
     }
 
     public Person getPerson(int id) throws IOException {
-        Person person = new ObjectMapper().readValue(Request.Get(host + endpoint + "/" + id).execute()
-                .returnContent().asString(), Person.class);
+        String content = Request.Get(host + endpoint + "/" + id)
+                .execute()
+                .returnContent().asString();
 
-        return person;
+        return new ObjectMapper().readValue(content, Person.class);
     }
 
-    public boolean createPerson(String name, int age) throws IOException {
-        int statusCode = Request.Post(host + endpoint).bodyString(
-                new ObjectMapper()
-                        .writeValueAsString(new Person(name, age)), ContentType.APPLICATION_JSON)
-                .execute().returnResponse().getStatusLine().getStatusCode();
+    public int createPerson(String name, int age) throws IOException {
+        String string = new ObjectMapper()
+                .writeValueAsString(new Person(name, age));
 
-        return statusCode == 201;
+        return Request.Post(host + endpoint).bodyString(
+                string, ContentType.APPLICATION_JSON)
+                .execute().returnResponse().getStatusLine().getStatusCode();
     }
 
 }
